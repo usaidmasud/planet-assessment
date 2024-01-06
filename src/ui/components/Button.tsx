@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import React, { ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface indexProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   color?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
@@ -17,9 +17,11 @@ function Button({
   block,
   onClick,
   disabled = false, // Default value is false
-}: indexProps) {
+  ...props
+}: ButtonProps) {
   return (
     <button
+      {...props}
       className={clsx(
         "rounded-md duration-300",
         block && "w-full",

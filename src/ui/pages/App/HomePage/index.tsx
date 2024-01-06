@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/ui/components/Button";
 import PlanetCard from "@/ui/components/PlanetCard";
 import {
@@ -5,8 +7,12 @@ import {
   fetchPlanet,
 } from "@/utils/services/planets/planet.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
+import { useInView } from "react-intersection-observer";
 
 function HomePage() {
+  const { ref, inView } = useInView();
+
   const {
     isLoading,
     isSuccess,
@@ -28,6 +34,13 @@ function HomePage() {
     },
     getPreviousPageParam: (previousPage) => previousPage.previous,
   });
+
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
   if (isLoading) {
     return (
       <div className="p-8 flex justify-center">
@@ -35,6 +48,7 @@ function HomePage() {
       </div>
     );
   }
+
   return (
     <div className="p-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
@@ -47,16 +61,14 @@ function HomePage() {
       </div>
       <div className="w-full mt-6 flex justify-center">
         {hasNextPage && (
-          <Button
-            size="lg"
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-          >
-            {isFetchingNextPage ? "Loading more..." : "Load More"}
-          </Button>
+          <div ref={ref}>
+            <Button>
+              {isFetchingNextPage ? "Loading more..." : "Load More"}
+            </Button>
+          </div>
         )}
         {!hasNextPage && (
-          <span className="text-sm text-secondary-main font-semibold">
+          <span className="text-sm bg-primary-hover text-white rounded-full px-4 py-1 font-semibold">
             End of page
           </span>
         )}

@@ -1,18 +1,31 @@
+import Button from "@/ui/components/Button";
 import PlanetCard from "@/ui/components/PlanetCard";
 import {
-  TGlobalRespon,
-  TPlanet,
   TResponseData,
   fetchPlanet,
 } from "@/utils/services/planets/planet.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 function HomePage() {
-  const { isLoading, isSuccess, data } = useInfiniteQuery<TResponseData>({
+  const {
+    isLoading,
+    isSuccess,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<TResponseData>({
     queryKey: ["planets"],
     queryFn: ({ pageParam }) => fetchPlanet(pageParam as number),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.next,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.next) {
+        return null; // No more pages
+      }
+      const url = new URL(lastPage.next);
+      const pageParam = url.searchParams.get("page");
+      return pageParam;
+    },
     getPreviousPageParam: (previousPage) => previousPage.previous,
   });
   if (isLoading) {
@@ -31,7 +44,22 @@ function HomePage() {
               <PlanetCard key={index} planet={planet} />
             )),
           )}
-        <pre></pre>
+      </div>
+      <div className="w-full mt-6 flex justify-center">
+        {hasNextPage && (
+          <Button
+            size="lg"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? "Loading more..." : "Load More"}
+          </Button>
+        )}
+        {!hasNextPage && (
+          <span className="text-sm text-secondary-main font-semibold">
+            End of page
+          </span>
+        )}
       </div>
     </div>
   );

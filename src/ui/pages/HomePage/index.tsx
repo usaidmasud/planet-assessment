@@ -7,34 +7,30 @@ import {
   TResponseData,
   fetchPlanet,
 } from "@/utils/services/planets/planet.api";
+import { HeartIcon } from "@heroicons/react/24/solid";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const { ref, inView } = useInView();
-
-  const {
-    isLoading,
-    isSuccess,
-    data,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<TResponseData>({
-    queryKey: ["planets"],
-    queryFn: ({ pageParam }) => fetchPlanet(pageParam as number),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (!lastPage.next) {
-        return null; // No more pages
-      }
-      const url = new URL(lastPage.next);
-      const pageParam = url.searchParams.get("page");
-      return pageParam;
-    },
-    getPreviousPageParam: (previousPage) => previousPage.previous,
-  });
+  const { isLoading, isSuccess, data, hasNextPage, fetchNextPage } =
+    useInfiniteQuery<TResponseData>({
+      queryKey: ["planets"],
+      queryFn: ({ pageParam }) => fetchPlanet(pageParam as number),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.next) {
+          return null; // No more pages
+        }
+        const url = new URL(lastPage.next);
+        const pageParam = url.searchParams.get("page");
+        return pageParam;
+      },
+      getPreviousPageParam: (previousPage) => previousPage.previous,
+    });
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (inView) {
@@ -44,6 +40,19 @@ function HomePage() {
 
   return (
     <div className="">
+      <div className="flex justify-center mb-4 sm:mb-0 sm:justify-end">
+        <Button
+          onClick={() => {
+            navigate({
+              pathname: "/wishlist",
+            });
+          }}
+        >
+          <div className="inline-flex gap-1 items-center align-middle">
+            <HeartIcon className="w-5 h-5" /> Your Wishlist
+          </div>
+        </Button>
+      </div>
       <div className="mb-8">
         <h2 className="text-2xl font-black text-primary-main text-center">
           List of Planet

@@ -1,17 +1,18 @@
 import formatDate from "@/utils/formatDate";
+import { useAppDispatch } from "@/utils/redux/hooks";
+import { addWhislist } from "@/utils/redux/slices/whislist.slice";
 import { TPlanet } from "@/utils/services/planets/planet.api";
 import { thousandFormat } from "@/utils/thousandFormat";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 interface PlanetCardProps {
   planet: TPlanet;
 }
 
 function PlanetCardDetail({ planet }: PlanetCardProps) {
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   return (
     <div className="w-full h-auto overflow-hidden shadow-lg rounded-lg bg-white relative sm:flex">
       <div className="relative sm:w-4/12">
@@ -76,6 +77,7 @@ function PlanetCardDetail({ planet }: PlanetCardProps) {
         <div className="mt-4">
           <Button
             onClick={() => {
+              dispatch(addWhislist(planet));
               toast.success("Planet was added to whislist");
             }}
             block

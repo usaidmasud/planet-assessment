@@ -1,14 +1,17 @@
 import { getIdFromUrl } from "@/utils/getIdFromUrl";
 import { TPlanet } from "@/utils/services/planets/planet.api";
 import { thousandFormat } from "@/utils/thousandFormat";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 interface PlanetCardProps {
   planet: TPlanet;
+  showRemove?: boolean;
+  handleRemove?: () => void;
 }
 
-function PlanetCard({ planet }: PlanetCardProps) {
+function PlanetCard({ planet, showRemove, handleRemove }: PlanetCardProps) {
   const navigate = useNavigate();
   return (
     <div className="w-full sm:max-w-xs h-auto overflow-hidden shadow-lg rounded-lg bg-white relative">
@@ -54,6 +57,17 @@ function PlanetCard({ planet }: PlanetCardProps) {
           </ul>
         </div>
       </div>
+      {showRemove && (
+        <div className="absolute top-2 right-2 z-50">
+          <button
+            onClick={handleRemove}
+            title="Remove from wishlist"
+            className=" text-secondary-light rounded-full p-1 hover:scale-110 transition duration-300 hover:text-secondary-main"
+          >
+            <XCircleIcon stroke="2" className="w-8 h-8" />
+          </button>
+        </div>
+      )}
       <div className="absolute bottom-4 w-full flex px-4">
         <Button
           onClick={() =>

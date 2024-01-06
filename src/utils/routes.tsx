@@ -13,7 +13,7 @@ export default function Routes() {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "/detail/:pid", element: <DetailPage /> },
-        { path: "/whislist", element: <WishlistPage /> },
+        { path: "/wishlist", element: <WishlistPage /> },
       ],
     },
     { path: "*", element: <NoMatch /> },

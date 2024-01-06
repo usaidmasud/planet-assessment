@@ -1,7 +1,5 @@
-import React from "react";
-
 function NoMatch() {
-  return <div>NoMatch</div>;
+  return <div>Route not found</div>;
 }
 
 export default NoMatch;

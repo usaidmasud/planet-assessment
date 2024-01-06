@@ -1,5 +1,4 @@
 import Avatar from "@/ui/components/Avatar";
-import { UserIcon } from "@heroicons/react/24/solid";
 import { ReactNode } from "react";
 
 interface ResidentProps {

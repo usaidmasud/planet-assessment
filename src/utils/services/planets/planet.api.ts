@@ -1,6 +1,5 @@
-import { QueryFunction } from "@tanstack/react-query";
-import instance from "../instance";
 import { AxiosResponse } from "axios";
+import instance from "../instance";
 
 export type TGlobalRespon = {
   pageParams: number[];

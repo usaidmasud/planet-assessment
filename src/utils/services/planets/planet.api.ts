@@ -34,6 +34,10 @@ export const fetchPlanet = async (pageParam: number) => {
   const response: AxiosResponse<TResponseData> = await instance.get(
     `/planets?page=${pageParam}`,
   );
-  // Axios automatically throws an error for non-2xx responses, so no need to check ok property
+  return response.data;
+};
+
+export const getPlanetById = async (id: string) => {
+  const response: AxiosResponse<TPlanet> = await instance.get(`/planets/${id}`);
   return response.data;
 };

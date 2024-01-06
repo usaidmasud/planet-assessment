@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/ui/components/Button";
+import LoadingFetch from "@/ui/components/LoadingFetch";
 import PlanetCard from "@/ui/components/PlanetCard";
 import {
   TResponseData,
@@ -41,17 +42,20 @@ function HomePage() {
     }
   }, [inView]);
 
-  if (isLoading) {
-    return (
-      <div className="p-8 flex justify-center">
-        <span className="text-base text-gray-600">Loading</span>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+    <div className="">
+      <div className="mb-8">
+        <h2 className="text-2xl font-black text-primary-main text-center">
+          List of Planet
+        </h2>
+      </div>
+      {isLoading && (
+        <div className="flex justify-center">
+          <LoadingFetch size="lg" />
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
         {isSuccess &&
           data.pages.map((page) =>
             page.results.map((planet, index) => (
@@ -62,12 +66,10 @@ function HomePage() {
       <div className="w-full mt-6 flex justify-center">
         {hasNextPage && (
           <div ref={ref}>
-            <Button>
-              {isFetchingNextPage ? "Loading more..." : "Load More"}
-            </Button>
+            <LoadingFetch size="md" />
           </div>
         )}
-        {!hasNextPage && (
+        {!isLoading && !hasNextPage && (
           <span className="text-sm bg-primary-hover text-white rounded-full px-4 py-1 font-semibold">
             End of page
           </span>

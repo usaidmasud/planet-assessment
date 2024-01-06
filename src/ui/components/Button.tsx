@@ -26,9 +26,9 @@ function Button({
         "rounded-md duration-300",
         block && "w-full",
         {
-          "bg-primary-main text-white hover:bg-primary-hover":
+          "bg-primary-main text-white hover:bg-primary-hover focus:ring-2 focus:ring-primary-light":
             color === "primary" && !disabled,
-          "bg-secondary-main text-white hover:bg-secondary-hover":
+          "bg-secondary-main text-white hover:bg-secondary-hover focus:ring-2 focus:ring-secondary-light":
             color === "secondary" && !disabled,
           "bg-gray-300 text-gray-500 cursor-not-allowed": disabled,
         },

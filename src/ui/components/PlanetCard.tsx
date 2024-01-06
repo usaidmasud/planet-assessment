@@ -1,17 +1,15 @@
-"use client";
+import { getIdFromUrl } from "@/utils/getIdFromUrl";
 import { TPlanet } from "@/utils/services/planets/planet.api";
 import { thousandFormat } from "@/utils/thousandFormat";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import React, { useState } from "react";
-import clsx from "clsx";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import ButtonWishlist from "./ButtonWishlist";
 interface PlanetCardProps {
   planet: TPlanet;
 }
 
 function PlanetCard({ planet }: PlanetCardProps) {
+  const navigate = useNavigate();
   return (
     <div className="w-full sm:max-w-xs h-auto overflow-hidden shadow-lg rounded-lg bg-white relative">
       <div className="relative">
@@ -57,7 +55,16 @@ function PlanetCard({ planet }: PlanetCardProps) {
         </div>
       </div>
       <div className="absolute bottom-4 w-full flex px-4">
-        <Button block>View Detail</Button>
+        <Button
+          onClick={() =>
+            navigate({
+              pathname: "/detail/" + getIdFromUrl(planet.url),
+            })
+          }
+          block
+        >
+          View Detail
+        </Button>
       </div>
     </div>
   );

@@ -1,14 +1,19 @@
+"use client";
 import { TPlanet } from "@/utils/services/planets/planet.api";
 import { thousandFormat } from "@/utils/thousandFormat";
 import Button from "./Button";
-
+import React, { useState } from "react";
+import clsx from "clsx";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import ButtonWishlist from "./ButtonWishlist";
 interface PlanetCardProps {
   planet: TPlanet;
 }
 
 function PlanetCard({ planet }: PlanetCardProps) {
   return (
-    <div className="w-full overflow-hidden shadow-lg rounded-lg bg-white">
+    <div className="w-full sm:max-w-xs h-auto overflow-hidden shadow-lg rounded-lg bg-white relative">
       <div className="relative">
         <img
           src="https://cdn.pixabay.com/photo/2016/09/29/13/08/planet-1702788_1280.jpg"
@@ -23,7 +28,7 @@ function PlanetCard({ planet }: PlanetCardProps) {
           />
         </div>
       </div>
-      <div className="p-6 mt-2">
+      <div className="p-6 mt-2 mb-10">
         <h5 className="text-xl font-bold mb-2 text-center">{planet.name}</h5>
         <div className="mt-4">
           <ul className="flex flex-col gap-1">
@@ -50,16 +55,15 @@ function PlanetCard({ planet }: PlanetCardProps) {
             />
           </ul>
         </div>
-        <div className="mt-4 flex justify-between items-center">
-          <Button size="sm">Resident</Button>
-          <Button size="sm">Film</Button>
-        </div>
+      </div>
+      <div className="absolute bottom-4 w-full flex px-4">
+        <Button block>View Detail</Button>
       </div>
     </div>
   );
 }
 
-export default PlanetCard;
+export default React.memo(PlanetCard);
 
 type TDescription = {
   label: string;
@@ -68,8 +72,8 @@ type TDescription = {
 function Description({ label, value }: TDescription) {
   return (
     <li className="flex items-start text-sm justify-between">
-      <span className=" tracking-wide">{label}</span>
-      <span className="font-semibold text-right">{value}</span>
+      <span className="w-1/2 tracking-wide">{label}</span>
+      <span className="w-1/2 font-semibold text-right">{value}</span>
     </li>
   );
 }

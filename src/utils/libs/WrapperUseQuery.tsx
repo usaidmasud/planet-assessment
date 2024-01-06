@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 function WrapperUseQuery({ children }: Props) {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );

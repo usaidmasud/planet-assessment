@@ -10,7 +10,7 @@ module.exports = {
         primary: {
           light: "#233A6C",
           main: "#14213d",
-          hover: "#111C35",
+          hover: "#0A111F",
         },
         secondary: {
           light: "#FDB034",

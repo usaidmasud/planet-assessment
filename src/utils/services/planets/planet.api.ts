@@ -1,5 +1,11 @@
-import { AxiosResponse } from "axios";
+import { QueryFunction } from "@tanstack/react-query";
 import instance from "../instance";
+import { AxiosResponse } from "axios";
+
+export type TGlobalRespon = {
+  pageParams: number[];
+  pages: TResponseData[];
+};
 
 export type TResponseData = {
   count: number;
@@ -24,8 +30,10 @@ export type TPlanet = {
   url: string;
 };
 
-export const fetchPlanet = async (): Promise<TResponseData> => {
-  const response: AxiosResponse<TResponseData> = await instance.get("/planets");
+export const fetchPlanet = async (pageParam: number) => {
+  const response: AxiosResponse<TResponseData> = await instance.get(
+    `/planets?page=${pageParam}`,
+  );
   // Axios automatically throws an error for non-2xx responses, so no need to check ok property
   return response.data;
 };

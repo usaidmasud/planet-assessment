@@ -1,7 +1,10 @@
-import Button from "@/ui/components/Button";
-import LoadingFetch from "@/ui/components/LoadingFetch";
-import PlanetCardDetail from "@/ui/components/PlanetCardDetail";
-import { TPlanet, getPlanetById } from "@/utils/services/planets/planet.api";
+import Button from "../../components/Button";
+import LoadingFetch from "../../components/LoadingFetch";
+import PlanetCardDetail from "../../components/PlanetCardDetail";
+import {
+  TPlanet,
+  getPlanetById,
+} from "../../../utils/services/planets/planet.api";
 import { ChevronLeftIcon, FilmIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";

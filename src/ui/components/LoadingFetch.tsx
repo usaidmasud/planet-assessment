@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 type Props = {
-  size: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg";
 };
 function LoadingFetch({ size = "md" }: Props) {
   return (

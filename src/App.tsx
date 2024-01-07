@@ -8,12 +8,10 @@ function App() {
   return (
     <Provider store={store}>
       <WrapperUseQuery>
-        <div className="font-nunito antialiased ">
-          <Routes />
-        </div>
+        <Routes />
         <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster position="top-center" reverseOrder={false} />
       </WrapperUseQuery>
+      <Toaster position="top-center" reverseOrder={false} />
     </Provider>
   );
 }

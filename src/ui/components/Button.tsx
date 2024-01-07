@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import React, { ButtonHTMLAttributes, ReactNode } from "react";
+import { ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+interface ButtonProps {
+  children?: ReactNode;
   color?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
   block?: boolean;
@@ -17,26 +17,22 @@ function Button({
   block,
   onClick,
   disabled = false, // Default value is false
-  ...props
 }: ButtonProps) {
   return (
     <button
-      {...props}
       className={clsx(
-        "rounded-md duration-300",
+        "rounded-md duration-300 focus:ring-2",
         block && "w-full",
-        {
-          "bg-primary-main text-white hover:bg-primary-hover focus:ring-2 focus:ring-primary-light":
-            color === "primary" && !disabled,
-          "bg-secondary-main text-white hover:bg-secondary-hover focus:ring-2 focus:ring-secondary-light":
-            color === "secondary" && !disabled,
-          "bg-gray-300 text-gray-500 cursor-not-allowed": disabled,
-        },
-        {
-          "px-3 py-1.5 text-xs": size === "sm",
-          "px-3 py-1.5 text-sm": size === "md",
-          "px-4 py-2 text-base": size === "lg",
-        },
+        color === "primary" &&
+          !disabled &&
+          "bg-primary-main text-white hover:bg-primary-hover  focus:ring-primary-light",
+        color === "secondary" &&
+          !disabled &&
+          "bg-secondary-main text-white hover:bg-secondary-hover focus:ring-secondary-light",
+        disabled && "bg-gray-300 text-gray-500 cursor-not-allowed",
+        size === "sm" && "px-3 py-1.5 text-xs",
+        size === "md" && "px-3 py-1.5 text-sm",
+        size === "lg" && "px-4 py-2 text-base",
       )}
       onClick={onClick}
       disabled={disabled} // Set the disabled attribute

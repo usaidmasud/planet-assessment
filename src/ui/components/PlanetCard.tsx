@@ -1,18 +1,23 @@
-import { getIdFromUrl } from "@/utils/getIdFromUrl";
 import { TPlanet } from "@/utils/services/planets/planet.api";
-import { thousandFormat } from "@/utils/thousandFormat";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { getIdFromUrl } from "../../utils/getIdFromUrl";
+import { thousandFormat } from "../../utils/thousandFormat";
 import Button from "./Button";
+import {
+  default as CardPlanetDescription,
+  default as PlanetCardDescription,
+} from "./PlanetCardDescription";
 interface PlanetCardProps {
-  planet: TPlanet;
+  planet?: TPlanet;
   showRemove?: boolean;
   handleRemove?: () => void;
 }
 
 function PlanetCard({ planet, showRemove, handleRemove }: PlanetCardProps) {
   const navigate = useNavigate();
+  if (!planet) return <div></div>;
   return (
     <div className="w-full sm:max-w-xs h-auto overflow-hidden shadow-lg rounded-lg bg-white relative">
       <div className="relative">
@@ -30,29 +35,29 @@ function PlanetCard({ planet, showRemove, handleRemove }: PlanetCardProps) {
         </div>
       </div>
       <div className="p-6 mt-2 mb-10">
-        <h5 className="text-xl font-bold mb-2 text-center">{planet.name}</h5>
+        <h5 className="text-xl font-bold mb-2 text-center">{planet?.name}</h5>
         <div className="mt-4">
           <ul className="flex flex-col gap-1">
-            <Description
+            <PlanetCardDescription
               label="Rotation Period"
-              value={thousandFormat(planet.rotation_period)}
+              value={thousandFormat(planet?.rotation_period)}
             />
-            <Description
+            <PlanetCardDescription
               label="Orbital Period"
-              value={thousandFormat(planet.orbital_period)}
+              value={thousandFormat(planet?.orbital_period)}
             />
-            <Description
+            <PlanetCardDescription
               label="Diameter"
-              value={thousandFormat(planet.diameter)}
+              value={thousandFormat(planet?.diameter)}
             />
-            <Description
+            <PlanetCardDescription
               label="Population"
-              value={thousandFormat(planet.population)}
+              value={thousandFormat(planet?.population)}
             />
-            <Description label="Terrain" value={planet.terrain} />
-            <Description
+            <CardPlanetDescription label="Terrain" value={planet?.terrain} />
+            <PlanetCardDescription
               label="Surface Water"
-              value={thousandFormat(planet.surface_water)}
+              value={thousandFormat(planet?.surface_water)}
             />
           </ul>
         </div>
@@ -68,33 +73,22 @@ function PlanetCard({ planet, showRemove, handleRemove }: PlanetCardProps) {
           </button>
         </div>
       )}
-      <div className="absolute bottom-4 w-full flex px-4">
-        <Button
-          onClick={() =>
-            navigate({
-              pathname: "/detail/" + getIdFromUrl(planet.url),
-            })
-          }
-          block
-        >
-          View Detail
-        </Button>
-      </div>
+      {planet && planet.url && (
+        <div className="absolute bottom-4 w-full flex px-4">
+          <Button
+            onClick={() => {
+              navigate({
+                pathname: "/detail/" + getIdFromUrl(planet?.url),
+              });
+            }}
+            block
+          >
+            View Detail
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
 export default React.memo(PlanetCard);
-
-type TDescription = {
-  label: string;
-  value: string;
-};
-function Description({ label, value }: TDescription) {
-  return (
-    <li className="flex items-start text-sm justify-between">
-      <span className="w-1/2 tracking-wide">{label}</span>
-      <span className="w-1/2 font-semibold text-right">{value}</span>
-    </li>
-  );
-}

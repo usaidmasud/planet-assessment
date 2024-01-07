@@ -1,12 +1,13 @@
-import formatDate from "@/utils/formatDate";
-import { useAppDispatch } from "@/utils/redux/hooks";
-import { addWhislist } from "@/utils/redux/slices/whislist.slice";
-import { TPlanet } from "@/utils/services/planets/planet.api";
-import { thousandFormat } from "@/utils/thousandFormat";
+import { formatDate } from "../../utils/formatDate";
+import { useAppDispatch } from "../../utils/redux/hooks";
+import { addWhislist } from "../../utils/redux/slices/whislist.slice";
+import { TPlanet } from "../../utils/services/planets/planet.api";
+import { thousandFormat } from "../../utils/thousandFormat";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import toast from "react-hot-toast";
 import Button from "./Button";
+import PlanetCardDescription from "./PlanetCardDescription";
 interface PlanetCardProps {
   planet: TPlanet;
 }
@@ -40,34 +41,34 @@ function PlanetCardDetail({ planet }: PlanetCardProps) {
         <h5 className="text-xl font-bold mb-2 text-center">Description</h5>
         <div className="mt-4">
           <ul className="flex flex-col gap-1">
-            <Description
+            <PlanetCardDescription
               label="Rotation Period"
               value={thousandFormat(planet.rotation_period)}
             />
-            <Description
+            <PlanetCardDescription
               label="Orbital Period"
               value={thousandFormat(planet.orbital_period)}
             />
-            <Description
+            <PlanetCardDescription
               label="Diameter"
               value={thousandFormat(planet.diameter)}
             />
-            <Description label="Climate" value={planet.climate} />
-            <Description label="Gravity" value={planet.gravity} />
-            <Description label="Terrain" value={planet.terrain} />
-            <Description
+            <PlanetCardDescription label="Climate" value={planet.climate} />
+            <PlanetCardDescription label="Gravity" value={planet.gravity} />
+            <PlanetCardDescription label="Terrain" value={planet.terrain} />
+            <PlanetCardDescription
               label="Surface Water"
               value={thousandFormat(planet.surface_water)}
             />
-            <Description
+            <PlanetCardDescription
               label="Population"
               value={thousandFormat(planet.population)}
             />
-            <Description
+            <PlanetCardDescription
               label="Created"
               value={formatDate(planet.created, true)}
             />
-            <Description
+            <PlanetCardDescription
               label="Edited"
               value={formatDate(planet.edited, true)}
             />
@@ -94,16 +95,3 @@ function PlanetCardDetail({ planet }: PlanetCardProps) {
 }
 
 export default React.memo(PlanetCardDetail);
-
-type TDescription = {
-  label: string;
-  value: string;
-};
-function Description({ label, value }: TDescription) {
-  return (
-    <li className="flex items-start justify-between">
-      <span className="w-1/2 tracking-wide">{label}</span>
-      <span className="w-1/2 font-semibold text-right">{value}</span>
-    </li>
-  );
-}
